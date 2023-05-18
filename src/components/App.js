@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./Login";
@@ -6,13 +5,13 @@ import { userRoutes } from "../routes/user";
 import { admiRoutes } from "../routes/admin";
 import Signup from "./Signup";
 import VerificationCode from "./Verification";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
-    <div className="main">
-      {isLoggedIn ? <Protected /> : <Public setIsLoggedIn={setIsLoggedIn} />}
-    </div>
+    <div className="main">{isAuthenticated ? <Protected /> : <Public />}</div>
   );
 }
 const Public = (props) => {
