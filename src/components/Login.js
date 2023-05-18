@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Form from "./Form";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
   const [loginWithLink, setLoginWithLink] = useState(false);
+  const navigate = useNavigate();
   return (
     <section className="sign-in">
       <div className="container">
@@ -13,9 +15,9 @@ const Login = (props) => {
             </figure>
             <span
               className="signup-image-link"
-              onClick={() => props.switchForms()}
+              onClick={() => navigate("signup")}
             >
-              New Here? SignUp
+              Don't have an account? Sign Up
             </span>
           </div>
 
@@ -27,9 +29,7 @@ const Login = (props) => {
                 className="social-label"
                 onClick={() => setLoginWithLink(!loginWithLink)}
               >
-                {loginWithLink
-                  ? "Login with password"
-                  : "Or use Login support Link"}
+                {loginWithLink ? "Use password" : "Use Personal Access Token"}
               </span>
             </div>
           </div>
@@ -40,16 +40,14 @@ const Login = (props) => {
 };
 
 const LoginForm = (props) => {
+  const navigate = useNavigate();
   return (
     <>
       {!props.loginWithLink && (
         <Form
           btnName="Login"
           fields={fields}
-          onSubmit={(data) => {
-            props.setIsLoggedIn(true);
-            console.log(data);
-          }}
+          onSubmit={(data) => navigate("verificationCode")}
         />
       )}
       {props.loginWithLink && (

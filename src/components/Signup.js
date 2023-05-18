@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 
 const Signup = (props) => {
+  const navigate = useNavigate();
   return (
     <section className="signup">
       <div className="container">
@@ -21,7 +23,10 @@ const Signup = (props) => {
             <figure>
               <img src="/images/signup.jpg" alt="signup" />
             </figure>
-            <span className="signup-image-link" onClick={() => props.switchForms()}>
+            <span
+              className="signup-image-link"
+              onClick={() => navigate("/")}
+            >
               Aleady have account? Login
             </span>
           </div>
