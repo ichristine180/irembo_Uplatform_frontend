@@ -12,10 +12,10 @@ import Signup from "./Signup";
 import VerificationCode from "./Verification";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import LoginLink from "./LoginLink";
 
 function App() {
   const isLoading = useSelector((state) => state.auth.isLoading);
-  console.log(isLoading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
     <div className="main">
@@ -37,6 +37,7 @@ const Public = (props) => {
         path="/verificationCode"
         element={<VerificationCode {...props} />}
       />
+      <Route path="/login/link/:token" element={<LoginLink />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

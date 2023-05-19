@@ -5,6 +5,9 @@ const initialState = {
   user: null,
   requestOtp: false,
   isLoading: false,
+  successMessage: null,
+  errorMessage: null,
+  navigate: false,
 };
 
 const authSlice = createSlice({
@@ -21,6 +24,13 @@ const authSlice = createSlice({
     },
     setRequestOTP(state, action) {
       state.requestOtp = action.payload;
+    },
+    setSuccessMessage(state, action) {
+      state.successMessage = action.payload.message;
+      state.navigate = action.payload.navigate;
+    },
+    setErrorMessage(state, action) {
+      state.errorMessage = action.payload;
     },
     logout(state) {
       state.isAuthenticated = false;
@@ -40,6 +50,8 @@ export const {
   setRequestOTP,
   logout,
   setIsLoading,
+  setSuccessMessage,
+  setErrorMessage,
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Form from "./Form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/authThunks";
+import { login, sendLoginLink } from "../redux/authThunks";
 
 const Login = (props) => {
   const [loginWithLink, setLoginWithLink] = useState(false);
@@ -43,13 +43,15 @@ const Login = (props) => {
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const requestOtp = useSelector((state) => state.auth.requestOtp);
-  useEffect(()=>{
-if(requestOtp) navigate("verificationCode")
-  },[requestOtp,navigate])
+  const errorMessage = useSelector((state) => state.auth.errorMessage);
+  useEffect(() => {
+    if (requestOtp) navigate("verificationCode");
+  }, [requestOtp, navigate]);
   return (
     <>
+      <p className="text-danger text-center px-3">{errorMessage}</p>
       {!props.loginWithLink && (
         <Form
           btnName="Login"
@@ -73,8 +75,7 @@ if(requestOtp) navigate("verificationCode")
             },
           ]}
           onSubmit={(data) => {
-            props.setIsLoggedIn(true);
-            console.log(data);
+            dispatch(sendLoginLink(data));
           }}
         />
       )}

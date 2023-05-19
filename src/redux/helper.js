@@ -1,4 +1,4 @@
-import { setIsLoading } from "./authSlice";
+import { setIsLoading, setErrorMessage } from "./authSlice";
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const handleResponse = async (response) => {
@@ -6,7 +6,7 @@ const handleResponse = async (response) => {
     const data = await response.json();
     return data;
   } else {
-    throw new Error("API request failed");
+    throw new Error("Internal server error");
   }
 };
 
@@ -26,6 +26,6 @@ export const request = async (dispatch, endpoint, body, token) => {
     return handleResponse(response);
   } catch (error) {
     dispatch(setIsLoading(false));
-    throw new Error("API request failed");
+    dispatch(setErrorMessage("API request failed"));
   }
 };
