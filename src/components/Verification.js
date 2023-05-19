@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import Form from "./Form";
+import { useDispatch } from "react-redux";
+import { verifyOTP } from "../redux/authThunks";
 
-const VerificationCode = (props) => {
-  const navigate = useNavigate();
+const VerificationCode = () => {
+  const dispatch = useDispatch();
   return (
     <section className="sign-in">
       <div className="container">
@@ -32,8 +33,7 @@ const VerificationCode = (props) => {
               ]}
               btnName={"Send"}
               onSubmit={(data) => {
-                props.setIsLoggedIn(true);
-                navigate("/");
+                dispatch(verifyOTP(data));
               }}
             />
           </div>

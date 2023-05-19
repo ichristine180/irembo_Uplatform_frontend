@@ -48,7 +48,7 @@ const Form = ({ fields, onSubmit, btnName }) => {
       {fields.map((field, i) => {
         return (
           <div className="form-group" key={i}>
-            <label htmlFor={field.name}>
+            <label>
               <i className={field.icon}></i>
             </label>
             {(field.type === "text" ||

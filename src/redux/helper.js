@@ -1,5 +1,6 @@
-const BASE_URL = process.env.C;
+import { setIsLoading } from "./authSlice";
 
+const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const handleResponse = async (response) => {
   if (response.ok) {
     const data = await response.json();
@@ -9,7 +10,7 @@ const handleResponse = async (response) => {
   }
 };
 
-export const request = async (endpoint, body, token) => {
+export const request = async (dispatch, endpoint, body, token) => {
   try {
     const requestOptions = {
       method: "post",
@@ -18,11 +19,13 @@ export const request = async (endpoint, body, token) => {
         "Content-Type": "application/json",
       },
     };
-
     if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
+    dispatch(setIsLoading(true));
     const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
+    dispatch(setIsLoading(false));
     return handleResponse(response);
   } catch (error) {
+    dispatch(setIsLoading(false));
     throw new Error("API request failed");
   }
 };
