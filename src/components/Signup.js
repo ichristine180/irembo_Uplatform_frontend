@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ToastContainer } from 'react-toastify';
+import { signup } from "../redux/authThunks";
+
 import Form from "./Form";
 
 const Signup = (props) => {
   const navigate = useNavigate();
+  const dispatch=useDispatch();
   return (
     <section className="signup">
+      <ToastContainer />
       <div className="container">
         <div className="signup-content">
           <div className="signup-form">
@@ -14,7 +20,7 @@ const Signup = (props) => {
                 btnName="SignUp"
                 fields={fields}
                 onSubmit={(data) => {
-                  console.log(data);
+                  dispatch(signup(data,navigate)); 
                 }}
               />
             }
@@ -25,7 +31,7 @@ const Signup = (props) => {
             </figure>
             <span
               className="signup-image-link"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/login")}
             >
               Aleady have account? Login
             </span>
@@ -92,6 +98,14 @@ const fields = [
     icon: "zmdi zmdi-calendar",
     required: true,
     placeholder: "Select your date of birth",
+  },
+  {
+    name: "nationailty",
+    label: "Nationality",
+    type: "text",
+    icon: "zmdi zmdi-global",
+    required: true,
+    placeholder: "Enter your nationality",
   },
   {
     name: "marital_status",

@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../redux/authThunks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSignOutAlt, } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const dispatch = useDispatch();

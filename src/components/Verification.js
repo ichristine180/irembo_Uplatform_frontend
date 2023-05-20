@@ -1,12 +1,19 @@
 import Form from "./Form";
 import { useDispatch } from "react-redux";
 import { verifyOTP } from "../redux/authThunks";
+import Alert from "./shared/Alert";
+import { useEffect } from "react";
+import { clear } from "../redux/authSlice";
 
 const VerificationCode = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
   return (
     <section className="sign-in">
       <div className="container">
+        <Alert />
         <div className="signin-content">
           <div className="signin-image">
             <figure>

@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
 import Form from "./Form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, sendLoginLink } from "../redux/authThunks";
+import Alert from "./shared/Alert";
+import { clear } from "../redux/authSlice";
 
 const Login = (props) => {
   const [loginWithLink, setLoginWithLink] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clear());
+  }, [dispatch]);
   return (
     <section className="sign-in">
       <div className="container">
+        <Alert />
         <div className="signin-content">
           <div className="signin-image">
             <figure>
@@ -45,13 +52,12 @@ const LoginForm = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const requestOtp = useSelector((state) => state.auth.requestOtp);
-  const errorMessage = useSelector((state) => state.auth.errorMessage);
+
   useEffect(() => {
     if (requestOtp) navigate("verificationCode");
   }, [requestOtp, navigate]);
   return (
     <>
-      <p className="text-danger text-center px-3">{errorMessage}</p>
       {!props.loginWithLink && (
         <Form
           btnName="Login"
@@ -79,6 +85,9 @@ const LoginForm = (props) => {
           }}
         />
       )}
+      <p className="reset-password-link">
+        Forgot password? <Link to="/sendresetlink">Reset</Link>
+      </p>
     </>
   );
 };

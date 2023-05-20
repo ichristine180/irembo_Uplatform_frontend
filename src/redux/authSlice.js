@@ -26,8 +26,7 @@ const authSlice = createSlice({
       state.requestOtp = action.payload;
     },
     setSuccessMessage(state, action) {
-      state.successMessage = action.payload.message;
-      state.navigate = action.payload.navigate;
+      state.successMessage = action.payload;
     },
     setErrorMessage(state, action) {
       state.errorMessage = action.payload;
@@ -37,6 +36,10 @@ const authSlice = createSlice({
       state.user = null;
       state.requestOtp = false;
       localStorage.clear();
+    },
+    clear(state) {
+      state.errorMessage = null;
+      state.successMessage = null;
     },
     setIsLoading(state, action) {
       state.isLoading = action.payload;
@@ -52,6 +55,7 @@ export const {
   setIsLoading,
   setSuccessMessage,
   setErrorMessage,
+  clear,
 } = authSlice.actions;
 
 export default authSlice.reducer;

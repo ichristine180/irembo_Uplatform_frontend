@@ -7,14 +7,16 @@ const LoginLink = () => {
   const { token } = useParams("token");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const navigateTo = useSelector((state) => state.auth.navigate);
-  console.log(navigateTo);
+  const errorMessage = useSelector((state) => state.auth.errorMessage);
   useEffect(() => {
     dispatch(loginWithLink(token));
-  }, [token,dispatch]);
+  }, [token, dispatch]);
   useEffect(() => {
-    if (navigateTo) navigate("/");
-  }, [navigate, navigateTo]);
+    if (errorMessage) {
+      navigate("/");
+      window.location.reload();
+    }
+  }, [navigate, errorMessage]);
   return <div></div>;
 };
 

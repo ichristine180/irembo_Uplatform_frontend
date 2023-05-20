@@ -13,6 +13,7 @@ import VerificationCode from "./Verification";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import LoginLink from "./LoginLink";
+import Sendresetlink from "./SendResetLink";
 
 function App() {
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -23,7 +24,7 @@ function App() {
         <div className="spinner-overlay">
           <div className="spinner-border" role="status"></div>
         </div>
-      )}
+      )}{" "}
       <Router>{isAuthenticated ? <Protected /> : <Public />}</Router>
     </div>
   );
@@ -37,6 +38,7 @@ const Public = (props) => {
         path="/verificationCode"
         element={<VerificationCode {...props} />}
       />
+      <Route path="/sendresetlink" element={<Sendresetlink {...props} />} />
       <Route path="/login/link/:token" element={<LoginLink />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
