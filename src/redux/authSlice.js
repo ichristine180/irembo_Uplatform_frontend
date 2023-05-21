@@ -44,6 +44,9 @@ const authSlice = createSlice({
     setIsLoading(state, action) {
       state.isLoading = action.payload;
     },
+    setUSerData(state, action) {
+      state.user = action.payload;
+    },
   },
 });
 
@@ -56,6 +59,7 @@ export const {
   setSuccessMessage,
   setErrorMessage,
   clear,
+  setUSerData
 } = authSlice.actions;
 
 export default authSlice.reducer;

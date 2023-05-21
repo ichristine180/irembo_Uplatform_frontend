@@ -7,7 +7,7 @@ import { faSignOutAlt, } from "@fortawesome/free-solid-svg-icons";
 const Header = () => {
   const dispatch = useDispatch();
   return (
-    <nav class="navbar navbar-light bg-light justify-content-between">
+    <nav class="nav-header">
       <a href="/" className="navbar-brand px-5">
         User Account management
       </a>
@@ -15,7 +15,7 @@ const Header = () => {
         onClick={() => dispatch(logoutUser())}
         icon={faSignOutAlt}
         style={{ cursor: "pointer" }}
-        className="px-5"
+        className="icon-logout"
       />
     </nav>
   );

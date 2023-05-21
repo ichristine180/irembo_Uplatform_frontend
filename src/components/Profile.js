@@ -1,113 +1,103 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./profile.css";
-import React from "react";
+import "../assets/styles/profile.css";
+import React, { useEffect } from "react";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Header from "./Header";
+import profileImg from "../assets/images/profile-img.png";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import dateFormat from "dateformat";
+import { getuserdata } from "../redux/userThunk";
 const Profile = () => {
+  const dispatch = useDispatch();
+  // const user=JSON.parse(localStorage.getItem('user'))
+  // const {authtoken, id}=user.data;
+
+  useEffect(() => {
+    dispatch(
+      getuserdata({ authtoken: "", id: "28b2db13-1e54-4cea-91da-78dee73a6370" })
+    );
+  }, [dispatch]);
+  const user = useSelector((state) => state.auth.user?.data);
+  //console.log(user?.account);
+  const date=dateFormat(user?.profile.dob,'mmmm d, yyyy')
+  const age=new Date().getFullYear()-Number(dateFormat(user?.profile.dob,'yyyy'))
+  console.log(age)
   return (
-    <div className="container mt-5">
+    <div className="">
       <Header />
-      <section>
-        <div className="rt-container">
-          <div className="col-rt-12">
-            <div className="Scriptcontent">
-              <div className="user-profile py-4">
-                <div className="container">
-                  <div className="row">
-                    <div className="col-lg-4">
-                      <div className="card shadow-sm">
-                        <div className="card-header bg-transparent text-center">
-                          <img
-                            className="profile_img"
-                            src="https://res.cloudinary.com/detyymnbz/image/upload/v1684482818/uploads/q7x1xg4eigvi7thvehnu.jpg"
-                            alt="user dp"
-                          />
-                          <h3>
-                            Ingabire Christine{" "}
-                            <FontAwesomeIcon
-                              icon={faCheckCircle}
-                              color="blue"
-                            />
-                          </h3>
-                        </div>
-                        <div className="card-body">
-                          <p className="mb-0">
-                            <strong className="pr-1">Mobile No</strong>{" "}
-                            321000001
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-8">
-                      <div className="card shadow-sm">
-                        <div className="card-header bg-transparent border-0">
-                          <h3 className="mb-0">
-                            <i className="far fa-clone pr-1"></i>Profile
-                            Information
-                          </h3>
-                        </div>
-                        <div className="card-body pt-0">
-                          <table className="table table-bordered">
-                            <tbody>
-                              <tr>
-                                <th width="30%">Roll</th>
-                                <td width="2%">:</td>
-                                <td>125</td>
-                              </tr>
-                              <tr>
-                                <th width="30%">Academic Year</th>
-                                <td width="2%">:</td>
-                                <td>2020</td>
-                              </tr>
-                              <tr>
-                                <th width="30%">Gender</th>
-                                <td width="2%">:</td>
-                                <td>Male</td>
-                              </tr>
-                              <tr>
-                                <th width="30%">Religion</th>
-                                <td width="2%">:</td>
-                                <td>Group</td>
-                              </tr>
-                              <tr>
-                                <th width="30%">blood</th>
-                                <td width="2%">:</td>
-                                <td>B+</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div style={{ height: "26px" }}></div>
-                      <div className="card shadow-sm">
-                        <div className="card-header bg-transparent border-0">
-                          <h3 className="mb-0">
-                            <i className="far fa-clone pr-1"></i>Identification
-                            Information
-                          </h3>
-                        </div>
-                        <div className="card-body pt-0">
-                          <p>
-                            Identification Type <b>NID</b>
-                          </p>
-                          <p>
-                            Identification NUmber{" "}
-                            <b>111111111111111111111111111</b>
-                          </p>
-                          <img
-                            src="https://res.cloudinary.com/detyymnbz/image/upload/v1684482818/uploads/q7x1xg4eigvi7thvehnu.jpg"
-                            alt="user dp"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      {user ? (
+        <section className="pr-content-section">
+          <div className="img-profile-container">
+            <img src={profileImg} />
+          </div>
+          <div className="profile-info-container">
+            <div className="profile-upper">
+              <img
+                className="profile_img"
+                src={user?.profile.profile_photo}
+                alt="user dp"
+              />
+              <div>
+                <h2>
+                  {`${user.profile.first_name} ${user.profile.last_name}`}
+                  {user?.account.status === "VERIFIED" ? (
+                    <FontAwesomeIcon icon={faCheckCircle} color="blue" />
+                  ) : (
+                    ""
+                  )}
+                </h2>
+                <p className="pemail">{user.profile.email}</p>
+              </div>
+            </div>
+            <hr />
+            <div className="profile-basic-information">
+              <h2 className="text-title-profile">Personal user Information</h2>
+              <br />
+              <div className="profile-details-container">
+                <div>
+                  <p className="">Mobile number: {user.profile.last_name}</p>
+                  <br />
+                  <p className="">Gender: {user.profile.gender}</p>
+                  <br />
+                  <p className="">Age: {age}</p>
+                  <br />
+                  <p className="">Mobile number: {user.account.mobile_no}</p>
+                  <br />
+                </div>
+                <div className="separator-verical" />
+                <div>
+                  <p className="">Birth of date: {date}</p>
+                  <br />
+                  <p className="">
+                    Marital status: {user.profile.marital_status}
+                  </p>
+                  <br />
+                  <p className="">Nationality: {user.profile.nationality}</p>
                 </div>
               </div>
             </div>
+            <hr />
+            <div className="profile-basic-information">
+              <h2 className="text-title-profile">
+                User identification Information
+              </h2>
+              <br />
+              <div className="id-profile-container">
+                {user?.account.status === "VERIFIED" ? (
+                  <div className="id-image-profile-container"><img src={user.profile.identity_image}/></div>
+                ) : (
+                  <Link className="form-submit" to="/verifyaccount">
+                    Verify your account
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <p>Please wait</p>
+      )}
     </div>
   );
 };

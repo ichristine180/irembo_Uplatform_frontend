@@ -5,7 +5,7 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-import "./App.css";
+import "../assets/styles/App.css";
 import Login from "./Login";
 import { userRoutes } from "../routes/user";
 import Signup from "./Signup";
@@ -14,12 +14,13 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import LoginLink from "./LoginLink";
 import Sendresetlink from "./SendResetLink";
+import Profile from "./Profile";
 
 function App() {
   const isLoading = useSelector((state) => state.auth.isLoading);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
-    <div className="main">
+    <div>
       {isLoading && (
         <div className="spinner-overlay">
           <div className="spinner-border" role="status"></div>
@@ -32,7 +33,8 @@ function App() {
 const Public = (props) => {
   return (
     <Routes>
-      <Route path="/" element={<Login {...props} />} />
+      {/* <Route path="/" element={<Login {...props} />} /> */}
+      <Route path="/" element={<Profile {...props} />} />
       <Route path="/signup" element={<Signup />} />
       <Route
         path="/verificationCode"

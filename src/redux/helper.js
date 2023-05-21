@@ -18,10 +18,11 @@ export const request = async (dispatch, endpoint, body, token) => {
         "Content-Type": "application/json",
       },
     };
-    if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
+    if (token) requestOptions.headers['authtoken'] = `Bearer ${token}`;
     dispatch(setIsLoading(true));
     const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
-    if (response.status == 429)
+    console.log(response)
+    if (response.status === 429)
       throw new Error("Too many request! try again later");
     dispatch(setIsLoading(false));
     return handleResponse(response);
@@ -30,6 +31,7 @@ export const request = async (dispatch, endpoint, body, token) => {
     dispatch(setErrorMessage(error.message));
   }
 };
+
 
 export const uploadImage = async (dispatch, endpoint, file, token) => {
   try {

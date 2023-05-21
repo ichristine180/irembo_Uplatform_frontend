@@ -10,7 +10,7 @@ const Sendresetlink = () => {
   const [showResendLink, setShowResendLink] = useState(false);
   const [data, setData] = useState(null);
   return (
-    <section className="sign-in">
+    <section className="main sign-in">
       <div className="container">
         <Alert />
         <div className="signin-content">

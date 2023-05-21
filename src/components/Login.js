@@ -14,7 +14,7 @@ const Login = (props) => {
     dispatch(clear());
   }, [dispatch]);
   return (
-    <section className="sign-in">
+    <section className="main sign-in">
       <div className="container">
         <Alert />
         <div className="signin-content">

@@ -9,7 +9,7 @@ const Signup = (props) => {
   const navigate = useNavigate();
   const dispatch=useDispatch();
   return (
-    <section className="signup">
+    <section className="main signup">
       <ToastContainer />
       <div className="container">
         <div className="signup-content">
