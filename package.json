@@ -23,7 +23,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=3001 env-cmd -f .env.development react-scripts start",
+    "start": "react-scripts start",
     "build:production": "env-cmd -f .env.production react-scripts build",
     "build:dev": "env-cmd -f .env.development react-scripts build",
     "test": "react-scripts test",
