@@ -33,8 +33,8 @@ function App() {
 const Public = (props) => {
   return (
     <Routes>
-      {/* <Route path="/" element={<Login {...props} />} /> */}
-      <Route path="/" element={<Profile {...props} />} />
+      <Route path="/" element={<Login {...props} />} />
+      {/* <Route path="/" element={<Profile {...props} />} /> */}
       <Route path="/signup" element={<Signup />} />
       <Route
         path="/verificationCode"
