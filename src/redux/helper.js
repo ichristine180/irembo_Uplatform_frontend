@@ -20,7 +20,7 @@ export const request = async (dispatch, endpoint, body, token) => {
     if (body) requestOptions.body = JSON.stringify(body);
     if (token) requestOptions.headers["authtoken"] = `Bearer ${token}`;
     dispatch(setIsLoading(true));
-    const response = await fetch(`${BASE_URL}/api/${endpoint}`, requestOptions);
+    const response = await fetch(`${BASE_URL}api${endpoint}`, requestOptions);
     if (response.status === 429)
       throw new Error("Too many request! try again later");
     dispatch(setIsLoading(false));
@@ -39,7 +39,7 @@ export const saveImage = async (imageFile) => {
     console.log("formData",formData);
     formData.append('file', imageFile, imageFile.name);
     console.log("formData",formData);
-    const response = await fetch(`${BASE_URL}/api/user/upload`, {
+    const response = await fetch(`${BASE_URL}api/user/upload`, {
       method: "POST",
       body: formData,
     });
