@@ -20,7 +20,7 @@ export const request = async (dispatch, endpoint, body, token) => {
     if (body) requestOptions.body = JSON.stringify(body);
     if (token) requestOptions.headers["authtoken"] = `Bearer ${token}`;
     dispatch(setIsLoading(true));
-    const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
+    const response = await fetch(`${BASE_URL}/api/${endpoint}`, requestOptions);
     if (response.status === 429)
       throw new Error("Too many request! try again later");
     dispatch(setIsLoading(false));
@@ -31,25 +31,7 @@ export const request = async (dispatch, endpoint, body, token) => {
   }
 };
 
-export const uploadImage = async (dispatch, endpoint, file, token) => {
-  try {
-    const requestOptions = {
-      method: "post",
-      file: file,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    if (token) requestOptions.headers.Authorization = `Bearer ${token}`;
-    dispatch(setIsLoading(true));
-    const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
-    dispatch(setIsLoading(false));
-    return handleResponse(response);
-  } catch (error) {
-    dispatch(setIsLoading(false));
-    dispatch(setErrorMessage("API request failed"));
-  }
-};
+
 
 export const saveImage = async (imageFile) => {
   try {
@@ -57,7 +39,7 @@ export const saveImage = async (imageFile) => {
     console.log("formData",formData);
     formData.append('file', imageFile, imageFile.name);
     console.log("formData",formData);
-    const response = await fetch(`${BASE_URL}/user/upload`, {
+    const response = await fetch(`${BASE_URL}/api/user/upload`, {
       method: "POST",
       body: formData,
     });
