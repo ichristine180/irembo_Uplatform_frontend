@@ -7,7 +7,7 @@ import { faSignOutAlt, } from "@fortawesome/free-solid-svg-icons";
 const Header = () => {
   const dispatch = useDispatch();
   return (
-    <nav class="nav-header">
+    <nav className="nav-header">
       <a href="/" className="navbar-brand px-5">
         User Account management
       </a>

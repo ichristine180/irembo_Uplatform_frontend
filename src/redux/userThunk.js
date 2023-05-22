@@ -1,25 +1,48 @@
-import { loginFailure, setErrorMessage, setUSerData } from "./authSlice";
-import { request } from "./helper";
+import { setErrorMessage, setSuccessMessage, setUSerData } from "./authSlice";
+import { request, saveImage } from "./helper";
 
-export const signUp = (data) => async (dispatch) => {
+export const signup = (data, navigate, imageFile) => async (dispatch) => {
   try {
-    await request(dispatch, "/auth/signup", data);
+    const imageUrl = await saveImage(imageFile, dispatch);
+    const userdata = getData(data, imageUrl);
+
+    const resdata = await request(dispatch, "/user/signup", userdata);
+    if (!resdata.isSuccessfull) throw new Error(resdata.message);
+    else {
+      navigate("/");
+      setSuccessMessage("Your account has been created successfull!");
+    }
   } catch (error) {
-    console.log(error);
     dispatch(setErrorMessage(error.message));
-    dispatch(loginFailure());
   }
 };
 
-export const getuserdata =({authtoken, id}) =>
+export const getuserdata =
+  ({ token, id }) =>
   async (dispatch) => {
     try {
-      const userResponse=await request(dispatch, "/user/info", { id }, authtoken);
-      console.log(userResponse)
-      dispatch(setUSerData(userResponse))
+      const userResponse = await request(dispatch, "/user/info", { id }, token);
+      dispatch(setUSerData(userResponse));
     } catch (error) {
-      console.log("Errorr====",error)
       dispatch(setErrorMessage(error.message));
     }
   };
-
+const getData = (data, imageUrl) => {
+  return {
+    accountData: {
+      mobile_no: data.mobile_no,
+      password: data.password,
+      role: 0,
+    },
+    profileData: {
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      dob: data.date_of_birth,
+      gender: data.gender,
+      marital_status: data.marital_status,
+      nationality: data.nationailty,
+      profile_photo: imageUrl,
+    },
+  };
+};

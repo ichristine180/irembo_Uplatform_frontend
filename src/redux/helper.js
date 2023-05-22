@@ -6,22 +6,21 @@ const handleResponse = async (response) => {
   if (response.ok) {
     if (!data.isSuccessfull) throw new Error(data.message);
     return data;
-  } else throw new Error(data.message);
+  } else throw new Error("internal server error");
 };
 
 export const request = async (dispatch, endpoint, body, token) => {
   try {
     const requestOptions = {
       method: "post",
-      body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
     };
-    if (token) requestOptions.headers['authtoken'] = `Bearer ${token}`;
+    if (body) requestOptions.body = JSON.stringify(body);
+    if (token) requestOptions.headers["authtoken"] = `Bearer ${token}`;
     dispatch(setIsLoading(true));
     const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
-    console.log(response)
     if (response.status === 429)
       throw new Error("Too many request! try again later");
     dispatch(setIsLoading(false));
@@ -31,7 +30,6 @@ export const request = async (dispatch, endpoint, body, token) => {
     dispatch(setErrorMessage(error.message));
   }
 };
-
 
 export const uploadImage = async (dispatch, endpoint, file, token) => {
   try {
@@ -50,5 +48,28 @@ export const uploadImage = async (dispatch, endpoint, file, token) => {
   } catch (error) {
     dispatch(setIsLoading(false));
     dispatch(setErrorMessage("API request failed"));
+  }
+};
+
+export const saveImage = async (imageFile) => {
+  try {
+    const formData = new FormData();
+    console.log("formData",formData);
+    formData.append('file', imageFile, imageFile.name);
+    console.log("formData",formData);
+    const response = await fetch(`${BASE_URL}/user/upload`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error("Failed to upload image");
+    }
+
+    const data = await response.json();
+    const imageUrl = data.data.imageUrl;
+    return imageUrl;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error occurred during image upload");
   }
 };

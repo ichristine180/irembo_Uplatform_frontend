@@ -7,9 +7,8 @@ const Alert = () => {
   const dispatch = useDispatch();
   const errorMessage = useSelector((state) => state.auth.errorMessage);
   const successMessage = useSelector((state) => state.auth.successMessage);
-  console.log(successMessage);
   let body = "";
-  if (errorMessage || successMessage)
+  if (successMessage || errorMessage)
     body = (
       <div
         className={`alert ${
@@ -18,7 +17,7 @@ const Alert = () => {
         role="alert"
         id="alert"
       >
-        {errorMessage || successMessage}
+        {errorMessage && !successMessage ? errorMessage : successMessage}
         <FontAwesomeIcon
           icon={faTimes}
           style={{ cursor: "pointer", float: "right" }}

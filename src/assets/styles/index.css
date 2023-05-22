@@ -15,3 +15,27 @@ code {
 a:hover{
   color: #d9d9d9;
 }
+
+.notifications {
+  margin-top: 75px;
+  margin-left: 20px;
+}
+
+.notification svg {
+  font-size: 30px;
+  color: #a02c5a;
+  float: right;
+  margin: 5px;
+}
+.notification h4 {
+  font-size: 22px !important;
+}
+.notification span {
+  font-size: 19px !important;
+}
+.notification {
+  box-shadow: 0px 0px 10px #ddd;
+  padding: 22px;
+  background-color: #f3f3f3;
+  margin-bottom: 10px;
+}

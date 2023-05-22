@@ -1,26 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ToastContainer } from 'react-toastify';
-import { signup } from "../redux/authThunks";
+import { signup } from "../redux/userThunk";
 
 import Form from "./Form";
+import Alert from "./shared/Alert";
+import { useState } from "react";
 
 const Signup = (props) => {
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+  const [image, setImage] = useState({});
   return (
     <section className="main signup">
-      <ToastContainer />
       <div className="container">
+        <Alert />
         <div className="signup-content">
           <div className="signup-form">
             <h2 className="form-title">Sign up</h2>
+            <div className="form-group">
+              <label className="px-4">Profile Picture</label>
+              <input
+              className="mt-5"
+                type="file"
+                name="image"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
             {
               <Form
                 btnName="SignUp"
                 fields={fields}
                 onSubmit={(data) => {
-                  dispatch(signup(data,navigate)); 
+                  dispatch(signup(data, navigate, image));
                 }}
               />
             }
@@ -75,7 +86,7 @@ const fields = [
     type: "text",
     icon: "zmdi zmdi-phone",
     required: true,
-    validate: /^(07[283]|\+2507[28])(\d{7})$/,
+    validate: /^(07[2839]|\+2507[28])(\d{7})$/,
     validateMessage: "Invalid mobile format",
     placeholder: "07xxxxxxxx",
   },
@@ -130,21 +141,6 @@ const fields = [
     validate: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
     validateMessage:
       "Password should be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character (!@#$%^&*)",
-  },
-  {
-    name: "retype_password",
-    label: "Retype Password",
-    type: "password",
-    icon: "zmdi zmdi-lock-outline",
-    placeholder: "Retype your password",
-    required: true,
-  },
-  {
-    name: "profile_image",
-    label: "Profile Image",
-    type: "file",
-    icon: "zmdi zmdi-image",
-    placeholder: "Upload your profile image",
   },
 ];
 

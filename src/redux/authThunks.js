@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import {
   loginSuccess,
   loginFailure,
@@ -21,39 +20,7 @@ export const login =
     }
   };
 
-export const signup = (data, navigate) => async (dispatch) => {
-  try {
-    const userdata = {
-      accountData: {
-        mobile_no: data.mobile_no,
-        password: data.password,
-        role: 0,
-      },
-      profileData: {
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email,
-        dob: data.date_of_birth,
-        gender: data.gender,
-        marital_status: data.marital_status,
-        nationality: data.nationailty,
-        profile_photo:
-          "https://static.actu.fr/uploads/2023/05/neige-pyr-n-es-orientales-960x640.jpg",
-      },
-    };
-    const resdata = await request(dispatch, "/user/signup", data);
-    if (!resdata.success) {
-      toast.error("An error occured, please try again");
-    } else {
-      if (navigate) {
-        navigate("/");
-      }
-    }
-  } catch (error) {
-    dispatch(setErrorMessage(error.message));
-    dispatch(loginFailure());
-  }
-};
+
 
 export const loginWithLink = (token) => async (dispatch) => {
   try {
@@ -92,9 +59,8 @@ export const sendResetLink =
   };
 
 export const logoutUser = () => async (dispatch) => {
-  const { data } =
-    localStorage.getItem("user") && JSON.parse(localStorage.getItem("user"));
-  await request(dispatch, "/auth/logout", null, data && data.token);
+  const data = JSON.parse(localStorage.getItem("user"));
+  if (data) await request(dispatch, "/auth/logout",null, data.data.token);
   dispatch(logout());
 };
 

@@ -8,6 +8,8 @@ const initialState = {
   successMessage: null,
   errorMessage: null,
   navigate: false,
+  userData: null,
+  image: {},
 };
 
 const authSlice = createSlice({
@@ -45,7 +47,10 @@ const authSlice = createSlice({
       state.isLoading = action.payload;
     },
     setUSerData(state, action) {
-      state.user = action.payload;
+      state.userData = action.payload;
+    },
+    setImage(state, action) {
+      state.image = action.payload;
     },
   },
 });
@@ -59,7 +64,8 @@ export const {
   setSuccessMessage,
   setErrorMessage,
   clear,
-  setUSerData
+  setUSerData,
+  setImage,
 } = authSlice.actions;
 
 export default authSlice.reducer;

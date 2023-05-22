@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-
 const Form = ({ fields, onSubmit, btnName }) => {
   const [formValues, setFormValues] = useState({});
   const [formErrors, setFormErrors] = useState({});

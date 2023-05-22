@@ -1,105 +1,133 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../assets/styles/profile.css";
 import React, { useEffect } from "react";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Header from "./Header";
-import profileImg from "../assets/images/profile-img.png";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import dateFormat from "dateformat";
 import { getuserdata } from "../redux/userThunk";
+const notification = [
+  "Please Protect Your Passwords,Keep your passwords confidential and avoid sharing them with anyone. Create strong, unique passwords for each online account):",
+];
 const Profile = () => {
   const dispatch = useDispatch();
-  // const user=JSON.parse(localStorage.getItem('user'))
-  // const {authtoken, id}=user.data;
-
+  const { id, token } = JSON.parse(localStorage.getItem("user")).data;
   useEffect(() => {
-    dispatch(
-      getuserdata({ authtoken: "", id: "28b2db13-1e54-4cea-91da-78dee73a6370" })
-    );
-  }, [dispatch]);
-  const user = useSelector((state) => state.auth.user?.data);
-  //console.log(user?.account);
-  const date=dateFormat(user?.profile.dob,'mmmm d, yyyy')
-  const age=new Date().getFullYear()-Number(dateFormat(user?.profile.dob,'yyyy'))
-  console.log(age)
+    dispatch(getuserdata({ token, id }));
+  }, [dispatch, id, token]);
+  const data = useSelector((state) => state.auth.userData);
+  let info = data && data.data;
   return (
     <div className="">
       <Header />
-      {user ? (
+      {info && (
         <section className="pr-content-section">
           <div className="img-profile-container">
-            <img src={profileImg} />
+            {notification.map((key, i) => {
+              return (
+                <div className="notifications" key={i}>
+                  <div className="notification">
+                    <FontAwesomeIcon icon={faBell} />
+
+                 <span>   Hi {info.profile.first_name} {key}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
           <div className="profile-info-container">
             <div className="profile-upper">
               <img
                 className="profile_img"
-                src={user?.profile.profile_photo}
+                src={info.profile.profile_photo}
                 alt="user dp"
               />
               <div>
                 <h2>
-                  {`${user.profile.first_name} ${user.profile.last_name}`}
-                  {user?.account.status === "VERIFIED" ? (
+                  {`${info.profile.first_name} ${info.profile.last_name}`}
+                  {info.account.status === "VERIFIED" && (
                     <FontAwesomeIcon icon={faCheckCircle} color="blue" />
-                  ) : (
-                    ""
                   )}
                 </h2>
-                <p className="pemail">{user.profile.email}</p>
+                <p className="pemail">{info.profile.email}</p>
               </div>
             </div>
             <hr />
-            <div className="profile-basic-information">
-              <h2 className="text-title-profile">Personal user Information</h2>
-              <br />
-              <div className="profile-details-container">
-                <div>
-                  <p className="">Mobile number: {user.profile.last_name}</p>
-                  <br />
-                  <p className="">Gender: {user.profile.gender}</p>
-                  <br />
-                  <p className="">Age: {age}</p>
-                  <br />
-                  <p className="">Mobile number: {user.account.mobile_no}</p>
-                  <br />
-                </div>
-                <div className="separator-verical" />
-                <div>
-                  <p className="">Birth of date: {date}</p>
-                  <br />
-                  <p className="">
-                    Marital status: {user.profile.marital_status}
-                  </p>
-                  <br />
-                  <p className="">Nationality: {user.profile.nationality}</p>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div className="profile-basic-information">
-              <h2 className="text-title-profile">
-                User identification Information
-              </h2>
-              <br />
-              <div className="id-profile-container">
-                {user?.account.status === "VERIFIED" ? (
-                  <div className="id-image-profile-container"><img src={user.profile.identity_image}/></div>
-                ) : (
-                  <Link className="form-submit" to="/verifyaccount">
-                    Verify your account
-                  </Link>
-                )}
-              </div>
-            </div>
+            <PersonalInformation
+              profile={info.profile}
+              account={info.account}
+            />
+            {info.vRequest ? (
+              <IdentificationInfo profile={info.profile} />
+            ) : (
+              <Link className="form-submit" to="/verifaccount">
+                Verify account
+              </Link>
+            )}
           </div>
         </section>
-      ) : (
-        <p>Please wait</p>
       )}
     </div>
   );
+};
+const PersonalInformation = ({ profile, account }) => {
+  const date = dateFormat(profile.dob, "mmmm d, yyyy");
+  return (
+    <>
+      {" "}
+      <div className="profile-basic-information">
+        <h2 className="text-title-profile">Personal user Information</h2>
+        <br />
+        <div className="profile-details-container">
+          <div>
+            <p className="">Gender: {profile.gender}</p>
+            <br />
+            <p className="">Age: {calculateAge(profile.dob)}</p>
+            <br />
+            <p className="">Mobile number: {account.mobile_no}</p>
+            <br />
+          </div>
+          <div className="separator-verical" />
+          <div>
+            <p className="">Birth of date: {date}</p>
+            <br />
+            <p className="">Marital status: {profile.marital_status}</p>
+            <br />
+            <p className="">Nationality: {profile.nationality}</p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+const IdentificationInfo = ({ profile }) => {
+  return (
+    <>
+      <hr />
+      <div className="profile-basic-information">
+        <h2 className="text-title-profile">User identification Information</h2>
+        <br />
+        <div className="id-profile-container">
+          <div className="id-image-profile-container">
+            <img src={profile.identity_image} alt="id" />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const calculateAge = (dateOfBirth) => {
+  const dob = new Date(dateOfBirth);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+
+  return age;
 };
 
 export default Profile;
