@@ -6,7 +6,7 @@ const handleResponse = async (response) => {
   if (response.ok) {
     if (!data.isSuccessfull) throw new Error(data.message);
     return data;
-  } else throw new Error("internal server error");
+  } else throw new Error(data.message);
 };
 
 export const request = async (dispatch, endpoint, body, token) => {

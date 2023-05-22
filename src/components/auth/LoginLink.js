@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { loginWithLink } from "../redux/authThunks";
+import { loginWithLink } from "../../redux/authThunks";
 
 const LoginLink = () => {
   const { token } = useParams("token");

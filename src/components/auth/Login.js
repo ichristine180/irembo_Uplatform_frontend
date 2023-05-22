@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Form from "./Form";
+import Form from "../shared/Form";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, sendLoginLink } from "../redux/authThunks";
-import Alert from "./shared/Alert";
-import { clear } from "../redux/authSlice";
+import { login, sendLoginLink } from "../../redux/authThunks";
+import Alert from "../shared/Alert";
+import { clear } from "../../redux/authSlice";
 
 const Login = (props) => {
   const [loginWithLink, setLoginWithLink] = useState(false);

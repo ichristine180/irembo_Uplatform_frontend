@@ -1,21 +1,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../assets/styles/profile.css";
-import React, { useEffect } from "react";
+import "../../assets/styles/profile.css";
+import React, { useEffect, useState } from "react";
 import { faBell, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import Header from "./Header";
-import { Link } from "react-router-dom";
+import Header from "../shared/Header";
 import { useSelector, useDispatch } from "react-redux";
 import dateFormat from "dateformat";
-import { getuserdata } from "../redux/userThunk";
+import { getuserdata } from "../../redux/userThunk";
+import VerificationModal from "../shared/Modal";
 const notification = [
   "Please Protect Your Passwords,Keep your passwords confidential and avoid sharing them with anyone. Create strong, unique passwords for each online account):",
 ];
 const Profile = () => {
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => setShowModal(!showModal);
   const dispatch = useDispatch();
-  const { id, token } = JSON.parse(localStorage.getItem("user")).data;
   useEffect(() => {
-    dispatch(getuserdata({ token, id }));
-  }, [dispatch, id, token]);
+    dispatch(getuserdata());
+  }, [dispatch]);
   const data = useSelector((state) => state.auth.userData);
   let info = data && data.data;
   return (
@@ -30,7 +31,10 @@ const Profile = () => {
                   <div className="notification">
                     <FontAwesomeIcon icon={faBell} />
 
-                 <span>   Hi {info.profile.first_name} {key}</span>
+                    <span>
+                      {" "}
+                      Hi {info.profile.first_name} {key}
+                    </span>
                   </div>
                 </div>
               );
@@ -61,13 +65,14 @@ const Profile = () => {
             {info.vRequest ? (
               <IdentificationInfo profile={info.profile} />
             ) : (
-              <Link className="form-submit" to="/verifaccount">
+              <button className="form-submit" onClick={toggleModal}>
                 Verify account
-              </Link>
+              </button>
             )}
           </div>
         </section>
       )}
+      <VerificationModal toggleModal={toggleModal} showModal={showModal} />
     </div>
   );
 };
@@ -106,7 +111,7 @@ const IdentificationInfo = ({ profile }) => {
     <>
       <hr />
       <div className="profile-basic-information">
-        <h2 className="text-title-profile">User identification Information</h2>
+        <h2 className="text-title-profile">{`${profile.identification_type} ${profile.identification_number}`}</h2>
         <br />
         <div className="id-profile-container">
           <div className="id-image-profile-container">

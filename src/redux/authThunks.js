@@ -20,8 +20,6 @@ export const login =
     }
   };
 
-
-
 export const loginWithLink = (token) => async (dispatch) => {
   try {
     const data = await request(dispatch, "/auth/login/link", { token });
@@ -60,7 +58,7 @@ export const sendResetLink =
 
 export const logoutUser = () => async (dispatch) => {
   const data = JSON.parse(localStorage.getItem("user"));
-  if (data) await request(dispatch, "/auth/logout",null, data.data.token);
+  if (data) await request(dispatch, "/auth/logout", null, data.data.token);
   dispatch(logout());
 };
 
@@ -80,3 +78,15 @@ const _loginSuccesHandler = (data, dispatch) => {
   dispatch(loginSuccess(data));
   dispatch(setRequestOTP(false));
 };
+
+export const resetPassword =
+  (body,navigate) =>
+  async (dispatch) => {
+    try {
+      const data = await request(dispatch, "/auth/resetPassword", body);
+      if (!data || !data.isSuccessfull) throw new Error(data.message);
+     navigate("/")
+    } catch (error) {
+      dispatch(setErrorMessage(error.message));
+    }
+  };

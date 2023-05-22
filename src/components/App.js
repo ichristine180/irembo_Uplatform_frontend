@@ -6,15 +6,15 @@ import {
   useNavigate,
 } from "react-router-dom";
 import "../assets/styles/App.css";
-import Login from "./Login";
+import Login from "./auth/Login";
 import { userRoutes } from "../routes/user";
-import Signup from "./Signup";
-import VerificationCode from "./Verification";
+import Signup from "./user/Signup";
+import VerificationCode from "./auth/Verification";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import LoginLink from "./LoginLink";
-import Sendresetlink from "./SendResetLink";
-import Profile from "./Profile";
+import LoginLink from "./auth/LoginLink";
+import Sendresetlink from "./resetPassword/SendResetLink";
+import ResetPassword from "./resetPassword/ResetPassword";
 
 function App() {
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -34,7 +34,6 @@ const Public = (props) => {
   return (
     <Routes>
       <Route path="/" element={<Login {...props} />} />
-      {/* <Route path="/" element={<Profile {...props} />} /> */}
       <Route path="/signup" element={<Signup />} />
       <Route
         path="/verificationCode"
@@ -42,6 +41,7 @@ const Public = (props) => {
       />
       <Route path="/sendresetlink" element={<Sendresetlink {...props} />} />
       <Route path="/login/link/:token" element={<LoginLink />} />
+      <Route path="/password/reset/:token" element={<ResetPassword />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

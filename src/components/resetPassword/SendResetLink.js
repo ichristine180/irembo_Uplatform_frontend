@@ -1,7 +1,7 @@
-import Form from "./Form";
+import Form from "../shared/Form";
 import { useDispatch } from "react-redux";
-import Alert from "./shared/Alert";
-import { sendResetLink } from "../redux/authThunks";
+import Alert from "../shared/Alert";
+import { sendResetLink } from "../../redux/authThunks";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 

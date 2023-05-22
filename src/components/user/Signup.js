@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signup } from "../redux/userThunk";
+import { signup } from "../../redux/userThunk";
 
-import Form from "./Form";
-import Alert from "./shared/Alert";
+import Form from "../shared/Form";
+import Alert from "../shared/Alert";
 import { useState } from "react";
 
 const Signup = (props) => {

@@ -1,9 +1,9 @@
-import Form from "./Form";
+import Form from "../shared/Form";
 import { useDispatch } from "react-redux";
-import { verifyOTP } from "../redux/authThunks";
-import Alert from "./shared/Alert";
+import { verifyOTP } from "../../redux/authThunks";
+import Alert from "../shared/Alert";
 import { useEffect } from "react";
-import { clear } from "../redux/authSlice";
+import { clear } from "../../redux/authSlice";
 
 const VerificationCode = () => {
   const dispatch = useDispatch();

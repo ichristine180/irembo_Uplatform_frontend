@@ -14,9 +14,7 @@ code {
 
 a:hover{
   color: #d9d9d9;
-}
-
-.notifications {
+}.notifications {
   margin-top: 75px;
   margin-left: 20px;
 }
@@ -39,3 +37,4 @@ a:hover{
   background-color: #f3f3f3;
   margin-bottom: 10px;
 }
+
