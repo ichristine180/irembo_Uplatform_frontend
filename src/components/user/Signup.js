@@ -17,15 +17,6 @@ const Signup = (props) => {
         <div className="signup-content">
           <div className="signup-form">
             <h2 className="form-title">Sign up</h2>
-            <div className="form-group">
-              <label className="px-4">Profile Picture</label>
-              <input
-              className="mt-5"
-                type="file"
-                name="image"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-            </div>
             {
               <Form
                 btnName="SignUp"
@@ -33,6 +24,7 @@ const Signup = (props) => {
                 onSubmit={(data) => {
                   dispatch(signup(data, navigate, image));
                 }}
+                child={<Image setImage={setImage} image={image} />}
               />
             }
           </div>
@@ -144,4 +136,24 @@ const fields = [
   },
 ];
 
+const Image = ({ setImage, image }) => {
+  return (
+    <>
+      <b> {image.name}</b>
+      <div className="file-upload">
+        <label htmlFor="fileInput">
+          <span>Upload Profile Picture</span>
+          <input
+            id="fileInput"
+            style={{ display: "none" }}
+            type="file"
+            name="image"
+            onChange={(e) => setImage(e.target.files[0])}
+            accept=".jpg, .jpeg, .png"
+          />
+        </label>
+      </div>
+    </>
+  );
+};
 export default Signup;

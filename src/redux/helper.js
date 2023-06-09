@@ -31,18 +31,16 @@ export const request = async (dispatch, endpoint, body, token) => {
   }
 };
 
-
-
-export const saveImage = async (imageFile) => {
+export const saveImage = async (imageFile, dispatch) => {
   try {
     const formData = new FormData();
-    console.log("formData",formData);
-    formData.append('file', imageFile, imageFile.name);
-    console.log("formData",formData);
+    formData.append("file", imageFile, imageFile.name);
+    dispatch(setIsLoading(true));
     const response = await fetch(`${BASE_URL}api/user/upload`, {
       method: "POST",
       body: formData,
     });
+    dispatch(setIsLoading(false));
     if (!response.ok) {
       throw new Error("Failed to upload image");
     }
@@ -51,7 +49,6 @@ export const saveImage = async (imageFile) => {
     const imageUrl = data.data.imageUrl;
     return imageUrl;
   } catch (error) {
-    console.log(error);
     throw new Error("Error occurred during image upload");
   }
 };

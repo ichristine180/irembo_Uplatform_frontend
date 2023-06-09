@@ -23,7 +23,6 @@ export const login =
 export const loginWithLink = (token) => async (dispatch) => {
   try {
     const data = await request(dispatch, "/auth/login/link", { token });
-    console.log(data);
     if (!data || !data.isSuccessfull) throw new Error("Internal server error");
     _loginSuccesHandler(data, dispatch);
   } catch (error) {

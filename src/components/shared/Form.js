@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Form = ({ fields, onSubmit, btnName }) => {
+const Form = ({ fields, onSubmit, btnName, child }) => {
   const [formValues, setFormValues] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const firstInputRef = useRef(null);
@@ -84,6 +84,7 @@ const Form = ({ fields, onSubmit, btnName }) => {
           </div>
         );
       })}
+      {child}
       <div className="form-group form-button">
         <input type="submit" className="form-submit" value={btnName} />
       </div>
